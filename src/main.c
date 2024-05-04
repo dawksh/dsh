@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc/malloc.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -36,6 +35,26 @@ int (*builtin_func[])(char **) = {
 int dsh_num_builtins()
 {
     return sizeof(builtin_str) / sizeof(char *);
+}
+
+int dsh_execute(char **args)
+{
+    int i;
+
+    if (args[0] == NULL)
+    {
+        return 1;
+    }
+
+    for (i = 0; i < dsh_num_builtins(); i++)
+    {
+        if (strcmp(args[0], builtin_func[i]) == 0)
+        {
+            return (builtin_func[i](args));
+        }
+    }
+
+    return dsh_launch(args);
 }
 
 int main(int argc, char **argv)
