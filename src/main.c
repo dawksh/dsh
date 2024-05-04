@@ -48,9 +48,9 @@ int dsh_execute(char **args)
 
     for (i = 0; i < dsh_num_builtins(); i++)
     {
-        if (strcmp(args[0], builtin_func[i]) == 0)
+        if (strcmp(args[0], builtin_str[i]) == 0)
         {
-            return (builtin_func[i](args));
+            return (*builtin_func[i])(args);
         }
     }
 
